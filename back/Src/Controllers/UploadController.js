@@ -36,12 +36,10 @@ class UploadController {
                         return new Return(415, 'File Upload Failed!', err);
                     }
                     var filePath1 = path.join(__dirname, '../files/')
-                    // console.log(filePath1)
                     var fs = require('fs')
                     var files = fs.readdirSync(filePath1, { withFileTypes: true })
                         .filter(item => !item.isDirectory())
                         .map(item => item.name)
-                    console.log(files)
                     if (files.includes("CNAB.txt")) {
                         return await UploadService.upload()
                     } else {

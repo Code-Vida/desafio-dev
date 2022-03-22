@@ -2,12 +2,12 @@ import Sequelize from 'sequelize';
 
 import Database from '../Database/Index';
 
-import Cnab from '../Models/Cnab';
+import CNAB from '../Models/CNAB';
 import TipoTransacao from '../Models/TipoTransacao';
 import Log from '../Models/Log';
 const models = [
   Log,
-  Cnab,
+  CNAB,
   TipoTransacao
 ];
 

@@ -2,7 +2,7 @@ import Sequelize, { Model } from 'sequelize';
 
 import { GET_DATE_FORMAT, SET_DATE_FORMAT } from '../Configurations/Constants'; 
 
-export default class Cnab extends Model 
+export default class CNAB extends Model 
 {
     static init(sequelize) {
 

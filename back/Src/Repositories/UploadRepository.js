@@ -1,4 +1,4 @@
-import Cnab from "../Models/Cnab";
+import CNAB from "../Models/CNAB";
 import SequelizeConnection from '../Connections/SequelizeConnection';
 import Return from "../Models/Return";
 import TipoTransacao from "../Models/TipoTransacao";
@@ -9,7 +9,7 @@ class UploadRepository extends SequelizeConnection {
         super();
     }
     async upload(obj) {
-        let retorno = await Cnab.create({
+        let retorno = await CNAB.create({
 			tipoTransacao: parseInt(obj.tipoTransacao),
 			data: obj.data,
 			valor: parseFloat(obj.valor),
@@ -28,7 +28,7 @@ class UploadRepository extends SequelizeConnection {
   
 	async getAll()
 	{
-		let results = await Cnab.findAll({
+		let results = await CNAB.findAll({
 			attributes: [
 				'tipoTransacao',
 				'data',
@@ -48,7 +48,7 @@ class UploadRepository extends SequelizeConnection {
                   on: {
                     [Op.and]: [
                       {
-                        tipoTransacao: Sequelize.where(Sequelize.col("TipoTransacao.tipo"), "=", Sequelize.col("Cnab.tipoTransacao"))
+                        tipoTransacao: Sequelize.where(Sequelize.col("TipoTransacao.tipo"), "=", Sequelize.col("CNAB.tipoTransacao"))
                       }
                     ]
                   },

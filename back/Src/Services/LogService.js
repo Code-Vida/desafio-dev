@@ -21,8 +21,6 @@ class LogService
     });
 
     return res
-      //.status(response ? response.statusCode: 200)
-      //.json(response ? response : "");
       .status(response.statusCode)
       .json(response)
   }

@@ -1,5 +1,5 @@
 import Return from '../Models/Return';
-import cnab from '../Models/Cnab'
+import cnab from '../Models/CNAB'
 import TipoTransacao from '../Models/TipoTransacao';
 import SequelizeConnection from '../Connections/SequelizeConnection';
 

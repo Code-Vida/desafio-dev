@@ -44,7 +44,6 @@ class UploadService {
             const up = array.map(async (r) => {
                 response = await UploadRepository.upload(r)
             })
-            //return new Return(200, 'ok')
             var filePath1 = path.join(__dirname, '../files/')
             fs.readdir(filePath1, (err, files) => {
                 if (err) throw err;
@@ -55,7 +54,6 @@ class UploadService {
                     });
                 }
             });
-            console.log(response)
             return response
         });
     }

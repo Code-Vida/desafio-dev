@@ -14,7 +14,6 @@ class Server {
 		if ((process.env.NODE_ENV + '').trim() !== 'PRODUCTION')
 			dotenv.config({
 				path: './Env/Homolog',
-				//debug: true
 			});
 
 		ExpressSwagger.Server.NODE_ENV = process.env.NODE_ENV || process.env.ENVIRONMENT;

@@ -28,7 +28,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
         backgroundColor: theme.palette.action.hover,
     },
-    // hide last border
     '&:last-child td, &:last-child th': {
         border: 0,
     },
@@ -41,8 +40,8 @@ function Home() {
     const [selected, setSelected] = useState();
     const [result, setResult] = useState();
     const [uploaded, setUploaded] = useState(false)
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -53,7 +52,6 @@ function Home() {
         setPage(0);
     };
     const selectFile = (event) => {
-        //console.log(event.target.files[0])
         setSelected(event.target.files[0]);
     };
     useEffect(() => {
@@ -69,10 +67,8 @@ function Home() {
         let file = new FormData();
         file.append("file", selected);
         file.append("fileName", selected.name);
-        //console.log(file)
         await api.post("upload", file)
             .then(res => {
-                console.log(res)
                 file = new FormData()
                 setUploaded(true)
 
@@ -88,9 +84,25 @@ function Home() {
                 setResult(res.data.content)
             })
     }
-     console.log('selected', selected)
-    // console.log('uploaded', uploaded)
-    // console.log('result', result)
+    let entrada = []
+    let valorEntrada
+    let valorSaida
+    let saida = []
+    const valores = (value) => {
+        if (value.TipoTransacao.natureza === 'Entrada') {
+            entrada.push(value.valor)
+        } else {
+            saida.push(value.valor)
+        }
+    }
+    if (result) {
+        if (result.length > 0) {
+            result.filter(valores);
+            let sum = a => a.reduce((x, y) => x + y);
+            valorEntrada = sum(entrada.map(x => Number(x)))
+            valorSaida = sum(saida.map(x => Number(x)))
+        }
+    }
     return (
         <>
             <Container maxWidth="sm">
@@ -105,8 +117,24 @@ function Home() {
                     {typeof selected !== "undefined" ? (<Paper sx={{ boxShadow: "none", bgcolor: '#f2f0f03b' }} style={{ marginTop: 20, marginBottom: 20 }}>{selected.name}</Paper>) : <Paper sx={{ boxShadow: "none", bgcolor: '#f2f0f03b' }} style={{ marginTop: 20, marginBottom: 20 }}>Nenhum arquivo selecionado</Paper>}
                     <Button style={{ marginTop: 20, marginBottom: 20, width: '100%' }} variant="contained" component="span" onClick={handleUploadFile}>Upload</Button>
                 </Box>
-
+                {result ? result.length > 0 ? (
+                        <Box sx={{ bgcolor: '#f2f0f03b', height: 'auto' }}>
+                            <Paper sx={{ boxShadow: "none", bgcolor: '#f2f0f03b' }}
+                                style={{ padding: 10, textAlign: 'center', fontSize: 20, fontFamily: ' "Trebuchet MS", Helvetica, sans-serif' }}>
+                                Entradas: {parseFloat(valorEntrada).toFixed(2)}
+                            </Paper>
+                            <Paper sx={{ boxShadow: "none", bgcolor: '#f2f0f03b' }}
+                                style={{ padding: 10, textAlign: 'center', fontSize: 20, fontFamily: ' "Trebuchet MS", Helvetica, sans-serif' }}>
+                                Saídas: {parseFloat(valorSaida).toFixed(2)}
+                            </Paper>
+                            <Paper sx={{ boxShadow: "none", bgcolor: '#f2f0f03b' }}
+                                style={{ padding: 10, textAlign: 'center', fontSize: 20, fontFamily: ' "Trebuchet MS", Helvetica, sans-serif' }}>
+                                Total: {parseFloat(valorEntrada).toFixed(2) - parseFloat(valorSaida).toFixed(2)}
+                            </Paper>
+                        </Box>
+                ) : null : null}
             </Container>
+
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
